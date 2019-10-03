@@ -62,8 +62,8 @@ const followersArray = [];
 
 // let axiosScript = document.createElement("script");
 // axiosScript.src ="https://unpkg.com/axios/dist/axios.min.js";
-// let parentElement = document.querySelector('body');
-// parentElement.insertBefore(axiosScript, script)
+// let parentElement = document.querySelector('.container');
+// parentElement.appendChild(axiosScript)
 
 //  Get request
 
@@ -73,12 +73,9 @@ axios.get('https://api.github.com/users/ignaciosm')
   .then(response => {
     // handle success
     console.log(response.data);
-
       data = response.data
       const newCard = myCard(data);
       entryPoint.appendChild(newCard);
-    
-
   })
   .catch(error => {
     // handle error
@@ -100,17 +97,6 @@ function myCard(data) {
   const following = document.createElement('p');
   const bio = document.createElement('p');
 
-  card.appendChild(img);
-  card.append(info);
-  info.appendChild(name);
-  card-info.appendChild(username);
-  card-info.appendChild(location);
-  card-info.appendChild(profile);
-  profile.appendChild(address);
-  card-info.appendChild(followers);
-  card-info.appendChild(following);
-  card-info.appendChild(bio);
-  
   card.classList.add('card');
   info.classList.add('card-info');
   name.classList.add('name');
@@ -121,12 +107,29 @@ function myCard(data) {
   username.textContent = data.login;
   location.textContent = `Location: ${data.location}`;
   address.href = data.html_url;
-  profile.textContent = `Profile: ${address}`; // the link is not working, TODO
+  address.textContent = data.html_url;
+  profile.textContent = `Profile:`;
+
+  card.appendChild(img);
+  card.append(info);
+  info.appendChild(name);
+  card-info.appendChild(username);
+  card-info.appendChild(location);
+  card-info.appendChild(profile);
+  profile.appendChild(address);
+  card-info.appendChild(followers);
+  card-info.appendChild(following);
+  card-info.appendChild(bio);  
+  
   followers.textContent = `Followers: ${data.followers}`;
   following.textContent = `Following: ${data.following}`;
   bio.textContent = `Bio: ${data.bio}`;
 
+  console.log('Address:', address);
+  console.log(profile);
+  
   return card;
+
 
 }
 
@@ -142,8 +145,6 @@ axios.get('https://api.github.com/users/ignaciosm/followers')
         const newCard = myCard(item);
         entryPoint.appendChild(newCard);
       })
-      
-
   })
   .catch(error => {
     // handle error
