@@ -3,6 +3,9 @@
            https://api.github.com/users/<your name>
 */
 
+
+
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -53,3 +56,96 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+
+// Add Axios Script to HTML (not working, fix later)
+
+// let axiosScript = document.createElement("script");
+// axiosScript.src ="https://unpkg.com/axios/dist/axios.min.js";
+// let parentElement = document.querySelector('body');
+// parentElement.insertBefore(axiosScript, script)
+
+//  Get request
+
+const entryPoint = document.querySelector(".cards");
+
+axios.get('https://api.github.com/users/ignaciosm')
+  .then(response => {
+    // handle success
+    console.log(response.data);
+
+      data = response.data
+      const newCard = myCard(data);
+      entryPoint.appendChild(newCard);
+    
+
+  })
+  .catch(error => {
+    // handle error
+    console.log(error);
+  });
+
+function myCard(data) {
+  // const githubURL = `https://api.github.com/users/${githubUser}`
+
+  const card = document.createElement('div');
+  const img = document.createElement('img');
+  const info = document.createElement('div');
+  const name = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const address = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  card.appendChild(img);
+  card.append(info);
+  info.appendChild(name);
+  card-info.appendChild(username);
+  card-info.appendChild(location);
+  card-info.appendChild(profile);
+  profile.appendChild(address);
+  card-info.appendChild(followers);
+  card-info.appendChild(following);
+  card-info.appendChild(bio);
+  
+  card.classList.add('card');
+  info.classList.add('card-info');
+  name.classList.add('name');
+  username.classList.add('username');
+
+  img.src = data.avatar_url;
+  name.textContent = data.name;
+  username.textContent = data.login;
+  location.textContent = `Location: ${data.location}`;
+  address.href = data.html_url;
+  profile.textContent = `Profile: ${address}`; // the link is not working, TODO
+  followers.textContent = `Followers: ${data.followers}`;
+  following.textContent = `Following: ${data.following}`;
+  bio.textContent = `Bio: ${data.bio}`;
+
+  return card;
+
+}
+
+// FOLLOWERS CARDS
+
+axios.get('https://api.github.com/users/ignaciosm/followers')
+  .then(response => {
+    // handle success
+    console.log(response.data);
+
+    data = response.data
+      data.forEach(item => {
+        const newCard = myCard(item);
+        entryPoint.appendChild(newCard);
+      })
+      
+
+  })
+  .catch(error => {
+    // handle error
+    console.log(error);
+  });
